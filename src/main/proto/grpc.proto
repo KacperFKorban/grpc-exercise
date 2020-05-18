@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package grpc;
+
+import "google/protobuf/duration.proto";
+
+option java_multiple_files = true;
+
+service Events {
+  rpc subscribeCrypto(CryptoRequest) returns (stream CryptoResponse);
+  rpc subscribeCrime(CrimeRequest) returns (stream CrimeResponse);
+}
+
+message CryptoRequest {
+  string name = 1;
+  enum Type {
+    ABOVE = 0;
+    BELOW = 1;
+  }
+  Type type = 2;
+  int32 value = 3;
+}
+
+message CryptoResponse {
+  int32 value = 1;
+}
+
+enum CrimeType {
+  MURDER = 0;
+  BURGLARY = 1;
+  ARSON = 2;
+  FRAUD = 3;
+}
+
+message CrimeRequest {
+  CrimeType type = 1;
+}
+
+message CrimeResponse {
+  int32 number = 1;
+  repeated Person suspects = 2;
+}
+
+message Person {
+  string name = 1;
+  int32 age = 2;
+}
